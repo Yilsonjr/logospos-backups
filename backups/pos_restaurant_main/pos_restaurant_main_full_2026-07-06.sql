@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict eRafwBh4hekjdH3ucxUJpSlqVu57tsJRyvQkpv4rYlbTHyAUJDM6RqF3ESKXEg7
+\restrict KSdlsRV3Dg9nspJsTodmp2OltQCxDg1so4U7pxhwi7amdEdQB4mjvJdXCSQd9XT
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.10 (Ubuntu 17.10-1.pgdg24.04+1)
@@ -5664,6 +5664,26 @@ CREATE TABLE realtime.messages_2026_07_08 (
 ALTER TABLE realtime.messages_2026_07_08 OWNER TO supabase_realtime_admin;
 
 --
+-- Name: messages_2026_07_09; Type: TABLE; Schema: realtime; Owner: supabase_realtime_admin
+--
+
+CREATE TABLE realtime.messages_2026_07_09 (
+    topic text NOT NULL,
+    extension text NOT NULL,
+    payload jsonb,
+    event text,
+    private boolean DEFAULT false,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    inserted_at timestamp without time zone DEFAULT now() NOT NULL,
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    binary_payload bytea,
+    CONSTRAINT messages_payload_exclusive CHECK (((payload IS NULL) OR (binary_payload IS NULL)))
+);
+
+
+ALTER TABLE realtime.messages_2026_07_09 OWNER TO supabase_realtime_admin;
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: realtime; Owner: supabase_admin
 --
 
@@ -5910,6 +5930,13 @@ ALTER TABLE ONLY realtime.messages ATTACH PARTITION realtime.messages_2026_07_07
 --
 
 ALTER TABLE ONLY realtime.messages ATTACH PARTITION realtime.messages_2026_07_08 FOR VALUES FROM ('2026-07-08 00:00:00') TO ('2026-07-09 00:00:00');
+
+
+--
+-- Name: messages_2026_07_09; Type: TABLE ATTACH; Schema: realtime; Owner: supabase_realtime_admin
+--
+
+ALTER TABLE ONLY realtime.messages ATTACH PARTITION realtime.messages_2026_07_09 FOR VALUES FROM ('2026-07-09 00:00:00') TO ('2026-07-10 00:00:00');
 
 
 --
@@ -6358,6 +6385,7 @@ COPY public.arqueos_caja (id, caja_id, billetes_2000, billetes_1000, billetes_50
 173	190	0	0	0	0	0	0	0	0	0	0	0	0	0	9100	0	\N	2026-06-25 23:32:45.176689+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 174	195	0	0	0	0	0	0	0	0	0	0	0	0	0	23200	0	\N	2026-07-05 04:07:38.419121+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 175	196	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	\N	2026-07-05 04:09:04.791503+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+176	197	0	0	0	0	0	0	0	0	0	0	0	0	0	14250	0	\N	2026-07-06 03:28:44.695695+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 \.
 
 
@@ -6459,7 +6487,7 @@ COPY public.cajas (id, monto_inicial, monto_final, monto_esperado, diferencia, e
 165	3300	37740	37740	0	cerrada	esme	2026-06-06 20:39:50.474+00	2026-06-07 04:30:24.225+00		\N	57000	3130	4000	29690	37740	admin	2026-06-06 20:39:51.723664+00	ee342997-4bab-4de1-ae02-aad2775613de
 189	3010	0	867.8	0	cerrada	wanda	2026-06-14 20:10:26.923+00	2026-06-15 14:07:08.386+00		\N	867.8	430	0	0	0	admin	2026-06-14 20:10:32.244941+00	ee342997-4bab-4de1-ae02-aad2775613de
 193	3000	0	800	0	cerrada	caro	2026-06-16 16:59:35.62+00	2026-06-16 19:03:32.01+00		\N	800	0	0	0	0	admin	2026-06-16 16:59:36.30784+00	ee342997-4bab-4de1-ae02-aad2775613de
-197	5000	\N	\N	\N	abierta	caja	2026-07-05 04:13:25.948+00	\N		\N	0	0	0	0	0	\N	2026-07-05 04:14:14.667533+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+197	5000	0	14250	0	cerrada	caja	2026-07-05 04:13:25.948+00	2026-07-06 03:28:44.862+00		\N	14250	0	0	0	0	admin	2026-07-05 04:14:14.667533+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 21	1	0	1	0	cerrada	admin	2026-03-26 21:44:42.413+00	2026-03-26 21:46:09.172+00		\N	0	0	0	0	0	admin	2026-03-26 21:44:42.181725+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 20	1500	1500	1500	0	cerrada	caja	2026-03-26 21:30:52.096+00	2026-03-26 21:48:33.792+00		\N	0	0	0	0	1500	admin	2026-03-26 21:31:46.127837+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 22	1	0	1	0	cerrada	admin	2026-03-27 01:33:21.454+00	2026-03-27 01:33:51.143+00		\N	0	0	0	0	0	admin	2026-03-27 01:33:21.6257+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -7048,10 +7076,10 @@ COPY public.mesas (id, numero, estado, area, created_at, negocio_id) FROM stdin;
 5	barra 3	disponible		2026-03-26 21:42:27.313502+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1	Mesa 1	disponible	Esquina Derecha	2026-02-24 17:24:52.524126+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 3	1	disponible	barra	2026-03-26 21:41:18.293414+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
-10	mesa 7	ocupada		2026-03-26 21:43:31.925487+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
-4	barra 2	disponible		2026-03-26 21:42:03.546889+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
-6	mesa 3	disponible		2026-03-26 21:42:51.270326+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 13	billar 2	disponible		2026-03-26 21:44:03.577658+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+6	mesa 3	disponible		2026-03-26 21:42:51.270326+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+4	barra 2	disponible		2026-03-26 21:42:03.546889+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+10	mesa 7	disponible		2026-03-26 21:43:31.925487+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 7	mesa 4	disponible		2026-03-26 21:42:58.517405+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 8	mesa 5	disponible		2026-03-26 21:43:06.443431+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 \.
@@ -7655,6 +7683,7 @@ COPY public.movimientos_caja (id, caja_id, tipo, concepto, monto, referencia, us
 1415	197	venta	Venta FAC-20260705-0052 (Efectivo)	200	1010	3	2026-07-05 19:51:46.831315+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1426	197	venta	Venta FAC-20260705-0063 (Efectivo)	50	1021	3	2026-07-05 22:26:06.278913+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1436	197	venta	Venta FAC-20260706-0001 (Efectivo)	200	1031	3	2026-07-06 00:00:10.963249+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+1446	197	venta	Venta FAC-20260706-0011 (Efectivo)	200	1041	3	2026-07-06 03:18:02.86496+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 3	3	venta	Venta FAC-20260224-5694 (Efectivo)	200	3	4	2026-02-24 20:57:31.530676+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 851	142	venta	Venta FAC-20260529-0004 (Efectivo)	400	851	3	2026-05-29 01:32:24.451927+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 863	144	venta	Venta FAC-20260531-0001 (Efectivo)	200	862	3	2026-05-31 02:03:37.938685+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -7704,6 +7733,7 @@ COPY public.movimientos_caja (id, caja_id, tipo, concepto, monto, referencia, us
 1416	197	venta	Venta FAC-20260705-0053 (Efectivo)	200	1011	3	2026-07-05 19:54:26.420715+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1427	197	venta	Venta FAC-20260705-0064 (Efectivo)	200	1022	3	2026-07-05 22:46:47.946244+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1437	197	venta	Venta FAC-20260706-0002 (Efectivo)	700	1032	3	2026-07-06 00:24:15.476738+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+1447	197	venta	Venta FAC-20260706-0012 (Efectivo)	50	1042	3	2026-07-06 03:21:19.722666+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 852	142	venta	Venta FAC-20260529-0005 (Efectivo)	1000	852	3	2026-05-29 02:01:22.55281+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 864	144	venta	Venta FAC-20260531-0002 (Efectivo)	950	863	3	2026-05-31 03:31:24.014883+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 876	149	venta	Venta FAC-20260603-0001 (Efectivo)	1050	868	3	2026-06-03 00:37:13.542431+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -7803,6 +7833,7 @@ COPY public.movimientos_caja (id, caja_id, tipo, concepto, monto, referencia, us
 1407	197	venta	Venta FAC-20260705-0044 (Efectivo)	200	1002	3	2026-07-05 18:36:49.505297+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1418	197	venta	Venta FAC-20260705-0055 (Efectivo)	800	1013	3	2026-07-05 20:15:08.065029+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1429	197	venta	Venta FAC-20260705-0066 (Efectivo)	150	1024	3	2026-07-05 23:02:24.465099+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+1439	197	venta	Venta FAC-20260706-0004 (Efectivo)	200	1034	3	2026-07-06 01:50:21.632201+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 854	142	venta	Venta FAC-20260529-0007 (Efectivo)	550	854	3	2026-05-29 02:48:44.107136+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 866	145	venta	Venta FAC-20260531-0004 (Efectivo)	350	865	3	2026-05-31 22:50:14.241208+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 878	149	venta	Venta FAC-20260603-0003 (Efectivo)	200	870	3	2026-06-03 01:46:14.045215+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -7854,6 +7885,7 @@ COPY public.movimientos_caja (id, caja_id, tipo, concepto, monto, referencia, us
 1408	197	venta	Venta FAC-20260705-0045 (Efectivo)	950	1003	3	2026-07-05 18:41:58.106411+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1419	197	venta	Venta FAC-20260705-0056 (Efectivo)	200	1014	3	2026-07-05 20:20:29.484459+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1430	197	venta	Venta FAC-20260705-0067 (Efectivo)	50	1025	3	2026-07-05 23:13:24.603704+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+1440	197	venta	Venta FAC-20260706-0005 (Efectivo)	150	1035	3	2026-07-06 02:00:02.728612+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 855	142	venta	Venta FAC-20260529-0008 (Efectivo)	300	855	3	2026-05-29 03:20:56.881145+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 867	145	venta	Venta FAC-20260601-0001 (Efectivo)	800	866	3	2026-06-01 00:36:22.208567+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 879	149	venta	Venta FAC-20260603-0004 (Efectivo)	200	871	3	2026-06-03 01:46:51.669597+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -7905,6 +7937,7 @@ COPY public.movimientos_caja (id, caja_id, tipo, concepto, monto, referencia, us
 1409	197	venta	Venta FAC-20260705-0046 (Efectivo)	50	1004	3	2026-07-05 18:44:23.562703+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1420	197	venta	Venta FAC-20260705-0057 (Efectivo)	200	1015	3	2026-07-05 20:26:07.597053+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1431	197	venta	Venta FAC-20260705-0068 (Efectivo)	400	1026	3	2026-07-05 23:17:04.446392+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+1441	197	venta	Venta FAC-20260706-0006 (Efectivo)	200	1036	3	2026-07-06 02:01:10.824803+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 856	142	venta	Venta FAC-20260529-0009 (Efectivo)	200	856	3	2026-05-29 03:23:34.01336+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 868	146	venta	Venta FAC-20260602-0001 (Efectivo)	2600	867	3	2026-06-02 03:37:45.644731+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 881	149	venta	Venta FAC-20260603-0006 (Efectivo)	200	873	3	2026-06-03 02:42:47.644293+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -7957,6 +7990,7 @@ COPY public.movimientos_caja (id, caja_id, tipo, concepto, monto, referencia, us
 1410	197	venta	Venta FAC-20260705-0047 (Efectivo)	1000	1005	3	2026-07-05 18:51:40.387251+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1421	197	venta	Venta FAC-20260705-0058 (Efectivo)	200	1016	3	2026-07-05 20:35:52.269546+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1432	197	venta	Venta FAC-20260705-0069 (Efectivo)	150	1027	3	2026-07-05 23:19:52.504473+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+1442	197	venta	Venta FAC-20260706-0007 (Efectivo)	200	1037	3	2026-07-06 02:33:11.507773+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 882	149	venta	Venta FAC-20260603-0007 (Efectivo)	200	874	3	2026-06-03 03:08:59.649234+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 911	159	venta	Venta FAC-20260605-0003 (Efectivo)	200	884	3	2026-06-05 02:10:40.802516+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 925	163	venta	Venta Mesa 1 - Orden #BCB560 (Efectivo)	40	c814122d-d254-4f11-bad5-6f28a2bcb560	12	2026-06-06 19:21:01.236492+00	ee342997-4bab-4de1-ae02-aad2775613de
@@ -8003,6 +8037,7 @@ COPY public.movimientos_caja (id, caja_id, tipo, concepto, monto, referencia, us
 1411	197	venta	Venta FAC-20260705-0048 (Efectivo)	400	1006	3	2026-07-05 19:02:28.288657+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1422	197	venta	Venta FAC-20260705-0059 (Efectivo)	200	1017	3	2026-07-05 20:39:15.72321+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1433	197	venta	Venta FAC-20260705-0070 (Efectivo)	300	1028	3	2026-07-05 23:26:58.731487+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+1443	197	venta	Venta FAC-20260706-0008 (Efectivo)	150	1038	3	2026-07-06 02:39:54.824951+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 858	143	venta	Venta FAC-20260530-0001 (Efectivo)	200	857	3	2026-05-30 00:34:43.226432+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 926	163	venta	Venta Mesa 1 - Orden #051B5E (Efectivo)	40	5430fcff-7a72-43c5-bf2a-ff0b75051b5e	12	2026-06-06 19:53:40.172558+00	ee342997-4bab-4de1-ae02-aad2775613de
 938	165	venta	Venta Mesa  - Orden #8BB2DD (Efectivo)	1500	1ebd2d46-3237-4685-8cb6-88cbe28bb2dd	18	2026-06-06 22:09:47.131428+00	ee342997-4bab-4de1-ae02-aad2775613de
@@ -8053,6 +8088,7 @@ COPY public.movimientos_caja (id, caja_id, tipo, concepto, monto, referencia, us
 1412	197	venta	Venta FAC-20260705-0049 (Efectivo)	400	1007	3	2026-07-05 19:20:54.306802+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1423	197	venta	Venta FAC-20260705-0060 (Efectivo)	300	1018	3	2026-07-05 21:26:23.507339+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1434	197	venta	Venta FAC-20260705-0071 (Efectivo)	200	1029	3	2026-07-05 23:32:39.232336+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+1444	197	venta	Venta FAC-20260706-0009 (Efectivo)	200	1039	3	2026-07-06 02:41:44.733676+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 859	143	venta	Venta FAC-20260530-0002 (Efectivo)	400	858	3	2026-05-30 03:12:54.194612+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 901	157	venta	Venta FAC-20260604-0001 (Efectivo)	1600	875	3	2026-06-04 01:49:08.48302+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 927	163	venta	Venta Mesa 1 - Orden #AC83CD (Efectivo)	40	36b20078-c1dc-42f9-b392-a2c002ac83cd	12	2026-06-06 19:56:06.876602+00	ee342997-4bab-4de1-ae02-aad2775613de
@@ -8104,6 +8140,7 @@ COPY public.movimientos_caja (id, caja_id, tipo, concepto, monto, referencia, us
 1413	197	venta	Venta FAC-20260705-0050 (Efectivo)	200	1008	3	2026-07-05 19:22:39.890974+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1424	197	venta	Venta FAC-20260705-0061 (Efectivo)	50	1019	3	2026-07-05 21:29:52.358149+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 1435	197	venta	Venta FAC-20260705-0072 (Efectivo)	600	1030	3	2026-07-05 23:35:35.328529+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+1445	197	venta	Venta FAC-20260706-0010 (Efectivo)	50	1040	3	2026-07-06 03:04:31.586861+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 860	143	venta	Venta FAC-20260530-0003 (Efectivo)	400	859	3	2026-05-30 03:12:55.177607+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 902	157	venta	Venta FAC-20260604-0002 (Efectivo)	600	877	3	2026-06-04 02:24:48.150714+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 916	159	venta	Venta FAC-20260605-0004 (Efectivo)	400	885	3	2026-06-05 21:11:46.579313+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -8947,8 +8984,12 @@ COPY public.pedidos_mesa (id, mesa_id, usuario_id, cliente_id, estado, total, cr
 426	4	3	\N	finalizado	600	2026-07-05 23:06:15.973559+00	2026-07-05 23:34:47.055+00	\N	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 430	3	3	\N	finalizado	200	2026-07-05 23:51:19.820014+00	2026-07-05 23:59:22.849+00	\N	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 432	4	3	\N	finalizado	700	2026-07-06 00:10:08.781298+00	2026-07-06 00:23:27.274+00	\N	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
-431	10	3	\N	abierto	0	2026-07-06 00:05:46.518304+00	2026-07-06 00:27:37.001+00	\N	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 427	6	3	\N	finalizado	1050	2026-07-05 23:09:25.549608+00	2026-07-06 00:39:11.786+00	\N	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+433	4	3	\N	finalizado	200	2026-07-06 01:49:22.869106+00	2026-07-06 01:49:33.429+00	\N	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+434	4	3	\N	finalizado	150	2026-07-06 01:59:04.119649+00	2026-07-06 01:59:14.516+00	\N	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+435	6	3	\N	cancelado	250	2026-07-06 02:12:02.462133+00	2026-07-06 02:32:27.997+00	\N	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+436	4	3	\N	cancelado	200	2026-07-06 02:17:32.403411+00	2026-07-06 02:53:32.731+00	\N	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+431	10	3	\N	cancelado	0	2026-07-06 00:05:46.518304+00	2026-07-06 02:53:44.52+00	\N	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 \.
 
 
@@ -9398,6 +9439,7 @@ COPY public.pedidos_mesa_detalle (id, pedido_id, producto_id, producto_nombre, c
 501	414	1	Pte Gr Light	3	200	600	pendiente	2026-07-05 17:47:20.877652+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 525	427	51	Agua 	1	50	50	pendiente	2026-07-06 00:33:16.221913+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 500	414	9	One Grande	2	200	400	pendiente	2026-07-05 17:47:12.092925+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+526	433	1	Pte Gr Light	1	200	200	pendiente	2026-07-06 01:50:10.905977+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 504	416	1	Pte Gr Light	1	200	200	pendiente	2026-07-05 18:24:16.879398+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 505	415	3	Pte Pña Normal	1	150	150	pendiente	2026-07-05 18:33:04.946694+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 503	415	1	Pte Gr Light	4	200	800	pendiente	2026-07-05 18:23:45.087494+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -9406,8 +9448,12 @@ COPY public.pedidos_mesa_detalle (id, pedido_id, producto_id, producto_nombre, c
 508	419	57	Gatarade	1	100	100	pendiente	2026-07-05 19:27:53.170626+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 509	419	1	Pte Gr Light	1	200	200	pendiente	2026-07-05 19:34:43.495832+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 510	420	1	Pte Gr Light	1	200	200	pendiente	2026-07-05 19:48:39.797509+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+527	434	4	Pte Pña Light	1	150	150	pendiente	2026-07-06 01:59:16.482679+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+528	435	4	Pte Pña Light	1	150	150	pendiente	2026-07-06 02:12:24.624533+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 512	422	1	Pte Gr Light	1	200	200	pendiente	2026-07-05 20:04:52.850969+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 511	421	1	Pte Gr Light	4	200	800	pendiente	2026-07-05 19:58:49.080523+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+529	435	57	Gatarade	1	100	100	pendiente	2026-07-06 02:12:37.699007+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+530	436	2	Pte Gr Normal	1	200	200	pendiente	2026-07-06 02:17:45.973988+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 515	424	1	Pte Gr Light	2	200	400	pendiente	2026-07-05 21:11:29.41116+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 513	423	1	Pte Gr Light	5	200	1000	pendiente	2026-07-05 20:37:06.380667+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 514	423	2	Pte Gr Normal	2	200	400	pendiente	2026-07-05 20:59:40.30803+00	\N	solicitado	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -9428,7 +9474,7 @@ COPY public.productos (id, nombre, descripcion, precio_compra, precio_venta, sto
 19	Dewar's White Label	\N	789	1500	2	1	7	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772063250430.webp	t	2026-02-25 23:47:30.292415+00	Unidad	producto-temp-1772063250430.webp	2026-07-04 18:21:49.441+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 58	Vodka Absolut	\N	1600	2500	1	1	6	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-58-1777137041305.png	t	2026-04-25 16:56:12.645626+00	Unidad	producto-58-1777137041305.png	2026-04-25 17:10:43.399+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 21	Something Special 	\N	817	1800	1	1	7	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772063585274.webp	t	2026-02-25 23:53:05.551324+00	Unidad	producto-temp-1772063585274.webp	2026-07-04 18:28:01.786+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
-4	Pte Pña Light	\N	75	150	18	24	1	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-4-1772060031093.jpg	t	2026-02-25 22:52:47.050337+00	Unidad	producto-4-1772060031093.jpg	2026-07-05 15:52:50.585+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+60	Coca Cola	\N	20	50	1	5	8	\N	\N	\N	t	2026-07-04 18:08:20.280801+00	Unidad	\N	2026-07-05 15:55:14.458+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 7	Stella Artois 	\N	128	200	24	5	1	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-7-1772060793832.webp	t	2026-02-25 23:05:48.853093+00	Unidad	producto-7-1772060793832.webp	2026-05-09 20:28:36.082+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 26	fireball medi	\N	431	1000	3	1	3	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772064701394.webp	t	2026-02-26 00:11:41.650338+00	Unidad	producto-temp-1772064701394.webp	2026-02-26 15:45:27.503+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 25	william lawsons	\N	769	1500	1	1	7	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772064479917.webp	t	2026-02-26 00:08:00.013784+00	Unidad	producto-temp-1772064479917.webp	2026-02-26 15:45:36.801+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -9438,7 +9484,7 @@ COPY public.productos (id, nombre, descripcion, precio_compra, precio_venta, sto
 11	Enriquillo Soda	\N	15	75	2	5	8	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772061651847.png	t	2026-02-25 23:20:52.292961+00	Unidad	producto-temp-1772061651847.png	2026-07-04 18:13:14.916+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 3	Pte Pña Normal	\N	85	150	0	24	1	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-3-1772059853010.webp	t	2026-02-25 22:47:54.435004+00	Unidad	producto-3-1772059853010.webp	2026-07-05 15:53:27.328+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 10	Rell Bull	\N	79	200	7	5	8	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772061419640.webp	t	2026-02-25 23:16:59.81945+00	Unidad	producto-temp-1772061419640.webp	2026-07-04 18:12:25.697+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
-60	Coca Cola	\N	20	50	2	5	8	\N	\N	\N	t	2026-07-04 18:08:20.280801+00	Unidad	\N	2026-07-05 15:55:14.458+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+2	Pte Gr Normal	\N	140	200	45	16	1	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-2-1772059042232.webp	t	2026-02-25 22:33:06.109501+00	Unidad	producto-2-1772059042232.webp	2026-07-05 15:52:23.009+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 12	Seven Up	\N	15	50	3	5	8	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772061924017.webp	t	2026-02-25 23:25:24.251194+00	Unidad	producto-temp-1772061924017.webp	2026-07-05 15:54:13.441+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 14	Jugo Motts	\N	170	300	2	3	8	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772062377456.webp	t	2026-02-25 23:32:57.830229+00	Unidad	producto-temp-1772062377456.webp	2026-07-04 18:13:41.03+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 34	añejo pño	\N	280	600	4	2	5	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-34-1774555674594.png	t	2026-03-05 00:17:50.526443+00	Unidad	producto-34-1774555674594.png	2026-07-04 18:14:55.309+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -9448,7 +9494,7 @@ COPY public.productos (id, nombre, descripcion, precio_compra, precio_venta, sto
 24	Fireball Gde	\N	1344	2200	2	1	3	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772064322436.webp	t	2026-02-26 00:05:22.361363+00	Unidad	producto-temp-1772064322436.webp	2026-07-04 18:33:18.805+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 32	Extraviejo Gde	\N	580	1100	4	2	5	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-32-1774555367897.jpg	t	2026-03-05 00:12:43.364393+00	Unidad	producto-32-1774555367897.jpg	2026-07-04 18:35:58.997+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 6	One Pña	\N	74	150	0	24	1	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772060549582.webp	t	2026-02-25 23:02:29.473137+00	Unidad	producto-temp-1772060549582.webp	2026-07-04 18:39:20.062+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
-2	Pte Gr Normal	\N	140	200	46	16	1	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-2-1772059042232.webp	t	2026-02-25 22:33:06.109501+00	Unidad	producto-2-1772059042232.webp	2026-07-05 15:52:23.009+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+4	Pte Pña Light	\N	75	150	16	24	1	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-4-1772060031093.jpg	t	2026-02-25 22:52:47.050337+00	Unidad	producto-4-1772060031093.jpg	2026-07-05 15:52:50.585+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 15	Gramberry	\N	194	350	2	2	8	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772062569076.webp	t	2026-02-25 23:36:09.226932+00	Unidad	producto-temp-1772062569076.webp	2026-07-04 18:13:53.033+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 46	Brugal XV Pño	\N	335	650	2	2	5	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-46-1774558431196.webp	t	2026-03-26 20:45:28.265394+00	Unidad	producto-46-1774558431196.webp	2026-07-04 18:16:28.38+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 20	chiva real 12	\N	2057	3000	1	1	7	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772063371297.webp	t	2026-02-25 23:49:31.483953+00	Unidad	producto-temp-1772063371297.webp	2026-02-26 15:47:51.595+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -9460,17 +9506,17 @@ COPY public.productos (id, nombre, descripcion, precio_compra, precio_venta, sto
 53	Smirnoff	\N	150	225	13	5	1	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-53-1776947621913.webp	t	2026-04-02 20:49:40.800232+00	Unidad	producto-53-1776947621913.webp	2026-04-23 12:33:42.584+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 17	King Label Pño	\N	265	500	3	2	7	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772062989122.webp	t	2026-02-25 23:43:09.364208+00	Unidad	producto-temp-1772062989122.webp	2026-07-04 18:19:00.285+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 5	Corona	\N	115	200	26	16	1	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772060282370.png	t	2026-02-25 22:58:03.012648+00	Unidad	producto-temp-1772060282370.png	2026-07-04 18:01:10.006+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
-1	Pte Gr Light	\N	140	200	61	16	1	\N	CER-001	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-1-1772057363362.jfif	t	2026-02-24 18:46:23.263228+00	Unidad	producto-1-1772057363362.jfif	2026-07-05 16:32:19.67+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 35	Doble Reserva Gde	\N	800	1500	4	2	5	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-35-1774555732219.webp	t	2026-03-05 00:19:52.943082+00	Unidad	producto-35-1774555732219.webp	2026-07-04 18:34:01.477+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 61	Give 100	\N	50	100	6	5	8	\N	\N	\N	t	2026-07-04 18:11:04.584751+00	Unidad	\N	2026-07-04 18:11:04.584751+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 18	King Label Gde	\N	516	1000	2	2	7	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772063133730.webp	t	2026-02-25 23:45:33.763198+00	Unidad	producto-temp-1772063133730.webp	2026-07-04 18:19:41.511+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 59	Aloe Vera	\N	77	150	6	5	8	\N	\N	\N	t	2026-04-29 22:43:48.685009+00	Unidad	\N	2026-07-04 18:10:35.794+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
-51	Agua 	\N	20	50	17	10	8	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-51-1777497640588.jpg	t	2026-04-02 20:37:52.680449+00	Unidad	producto-51-1777497640588.jpg	2026-07-04 18:06:02.511+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 41	Johnnie Walker Black	\N	2175	3500	1	1	7	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-41-1774557337483.webp	t	2026-03-26 20:17:31.540037+00	Unidad	producto-41-1774557337483.webp	2026-07-04 18:22:45.736+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 29	bodka Cayman blue	\N	721	1600	1	1	6	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772065102120.jpg	t	2026-02-26 00:18:22.038152+00	Unidad	producto-temp-1772065102120.jpg	2026-07-04 18:27:29.369+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 49	Barcelo anejo Pño	\N	280	600	1	1	5	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-49-1774558679288.webp	t	2026-03-26 20:51:41.239159+00	Unidad	producto-49-1774558679288.webp	2026-07-04 18:41:02.455+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 38	Leyenda azul	\N	1140	1800	1	1	5	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-38-1774555862695.webp	t	2026-03-26 20:09:07.368074+00	Unidad	producto-38-1774555862695.webp	2026-07-04 18:41:56.719+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 39	Old Parr 12	\N	1950	3200	1	1	7	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-39-1774556134079.webp	t	2026-03-26 20:13:35.347552+00	Unidad	producto-39-1774556134079.webp	2026-07-04 18:42:33.504+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+1	Pte Gr Light	\N	140	200	57	16	1	\N	CER-001	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-1-1772057363362.jfif	t	2026-02-24 18:46:23.263228+00	Unidad	producto-1-1772057363362.jfif	2026-07-05 16:32:19.67+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
+51	Agua 	\N	20	50	16	10	8	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-51-1777497640588.jpg	t	2026-04-02 20:37:52.680449+00	Unidad	producto-51-1777497640588.jpg	2026-07-04 18:06:02.511+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 13	911	\N	36	100	4	3	8	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772062187585.jpg	t	2026-02-25 23:29:48.550698+00	Unidad	producto-temp-1772062187585.jpg	2026-07-05 15:53:53.534+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 28	stolichnaya vodka 	\N	919	2200	2	2	6	\N	\N	https://tisldfszcdahxqmsajfm.supabase.co/storage/v1/object/public/productos-imagenes/producto-temp-1772064973595.webp	t	2026-02-26 00:16:13.273579+00	Unidad	producto-temp-1772064973595.webp	2026-07-04 18:26:50.342+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
 62	Carlos Rossi Rosado	\N	424	900	1	5	4	\N	\N	\N	t	2026-07-04 18:30:31.253592+00	Unidad	\N	2026-07-04 18:30:39.471+00	Unidad	ee860ed4-5d7a-495d-a517-d4a887f9a3f3
@@ -11547,6 +11593,8 @@ COPY public.sesiones (id, usuario_id, token, fecha_inicio, fecha_expiracion, ip_
 812	4	93b1d391-62ca-42dd-8b67-eccac0a118bb	2026-07-05 05:19:15.425+00	2026-07-05 13:19:15.425+00	\N	\N	t	2026-07-05 05:19:15.700538+00
 813	4	c97d21de-80b8-492d-9e2b-9564bde51e7c	2026-07-05 14:59:46.409+00	2026-07-05 22:59:46.409+00	\N	\N	t	2026-07-05 14:59:46.696858+00
 814	3	544c120b-9203-4870-8e08-07ac898b681f	2026-07-05 16:53:26.122+00	2026-07-06 00:53:26.122+00	\N	\N	t	2026-07-05 16:53:26.375188+00
+815	3	1a4297f6-6c8f-46ad-b8bb-bc00a5715167	2026-07-06 01:48:50.956+00	2026-07-06 09:48:50.956+00	\N	\N	t	2026-07-06 01:48:51.207948+00
+816	3	036401d8-63f5-44b3-8999-5b2e20f241af	2026-07-06 02:41:00.983+00	2026-07-06 10:41:00.982+00	\N	\N	t	2026-07-06 02:41:01.270168+00
 \.
 
 
@@ -11557,7 +11605,7 @@ COPY public.sesiones (id, usuario_id, token, fecha_inicio, fecha_expiracion, ip_
 COPY public.usuarios (id, nombre, apellido, email, username, password, rol_id, activo, ultimo_acceso, created_at, telefono, negocio_id, avatar) FROM stdin;
 14	Felix	Burgos	fpb2608@gmail.com	Felix	$2b$10$.3aC9c4QEmd7NAxLim6GgOHTryBIom66saamBKuf2rPMtMLMbVE.6	115	f	2026-06-10 14:34:20.944+00	2026-05-27 15:02:58.903204+00		ee342997-4bab-4de1-ae02-aad2775613de	
 4	abel	burgos	abel@gmail.com	abel	$2b$10$g1KaPBNbbw3Q2.y7QrY0hOT81bhPDCqhzZ1IIpeEBsqyqw5lW3bRa	735	t	2026-07-05 14:59:46.803+00	2026-02-24 20:50:25.039229+00		ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
-3	caja	cajero	caja@gmail.com	caja	$2b$10$ddYgBUQWfiDZejyV/yT0EO.RdCCaDfQv4pLxavyaj0bx344RkfpGC	113	t	2026-07-05 16:53:26.458+00	2026-02-24 20:04:08.511029+00		ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
+3	caja	cajero	caja@gmail.com	caja	$2b$10$ddYgBUQWfiDZejyV/yT0EO.RdCCaDfQv4pLxavyaj0bx344RkfpGC	113	t	2026-07-06 02:41:01.345+00	2026-02-24 20:04:08.511029+00		ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 8	Admin	Developer	ing.jimrod@gmail.com	AdminDev	$2b$10$6mmP3c88IQruIiuJlddpKu9BdncIc07EtFGp6s7UTEsZ8DZZxBqam	7	t	2026-06-08 17:58:27.058+00	2026-04-21 20:48:59.383053+00	\N	00000000-0000-0000-0000-000000000000	\N
 5	Cristofer 	C	cristofer@gmail.com	Cristofer	$2b$10$lKNOXQpgCf.GQSxA0aQo/ugh69B4bcVnUTbrAFuuuiT6.7Ljrubyy	736	t	2026-04-08 16:45:49.294+00	2026-03-02 19:35:02.911239+00		ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 17	Carolina	Lebron	carolinalebron@gmail.com	caro	$2b$10$WgTNBKX2lR0YNzW/wBLAPugrUpom668rlGzE7eA3YQQMPhY3WudbK	23	t	2026-06-16 16:59:06.914+00	2026-06-02 18:30:13.814831+00	8497506187	ee342997-4bab-4de1-ae02-aad2775613de	\N
@@ -12174,6 +12222,7 @@ COPY public.ventas (id, numero_venta, cliente_id, usuario_id, caja_id, subtotal,
 989	FAC-20260705-0031	\N	\N	195	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 02:58:34.258065+00	\N	\N	2026-07-05 02:58:34.258065+00	\N	2026-07-05 02:58:34.258065+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1005	FAC-20260705-0047	\N	\N	197	1000	0	0	1000	efectivo	contado	completada		\N	\N	\N	2026-07-05 18:51:40.0335+00	12	414	2026-07-05 18:51:40.0335+00	\N	2026-07-05 18:51:40.0335+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1021	FAC-20260705-0063	\N	\N	197	50	0	0	50	efectivo	contado	completada		\N	\N	\N	2026-07-05 22:26:05.963728+00	\N	\N	2026-07-05 22:26:05.963728+00	\N	2026-07-05 22:26:05.963728+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
+1037	FAC-20260706-0007	\N	\N	197	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-06 02:33:11.239485+00	\N	\N	2026-07-06 02:33:11.239485+00	\N	2026-07-06 02:33:11.239485+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 852	FAC-20260529-0005	\N	\N	142	1000	0	0	1000	efectivo	contado	completada		\N	\N	\N	2026-05-29 02:01:22.3043+00	4	344	2026-05-29 02:01:22.3043+00	\N	2026-05-29 02:01:22.3043+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 870	FAC-20260603-0003	\N	\N	149	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-06-03 01:46:13.556359+00	\N	\N	2026-06-03 01:46:13.556359+00	\N	2026-06-03 01:46:13.556359+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 887	FAC-20260606-0001	\N	\N	159	150	0	0	150	efectivo	contado	completada		\N	\N	\N	2026-06-06 00:29:48.246176+00	\N	\N	2026-06-06 00:29:48.246176+00	\N	2026-06-06 00:29:48.246176+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
@@ -12186,6 +12235,7 @@ COPY public.ventas (id, numero_venta, cliente_id, usuario_id, caja_id, subtotal,
 990	FAC-20260705-0032	\N	\N	195	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 03:20:23.669082+00	4	412	2026-07-05 03:20:23.669082+00	\N	2026-07-05 03:20:23.669082+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1006	FAC-20260705-0048	\N	\N	197	400	0	0	400	efectivo	contado	completada		\N	\N	\N	2026-07-05 19:02:27.917385+00	3	417	2026-07-05 19:02:27.917385+00	\N	2026-07-05 19:02:27.917385+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1022	FAC-20260705-0064	\N	\N	197	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 22:46:47.594795+00	2	425	2026-07-05 22:46:47.594795+00	\N	2026-07-05 22:46:47.594795+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
+1038	FAC-20260706-0008	\N	\N	197	150	0	0	150	efectivo	contado	completada		\N	\N	\N	2026-07-06 02:39:54.297191+00	\N	\N	2026-07-06 02:39:54.297191+00	\N	2026-07-06 02:39:54.297191+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 853	FAC-20260529-0006	\N	\N	142	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-05-29 02:07:05.860254+00	4	345	2026-05-29 02:07:05.860254+00	\N	2026-05-29 02:07:05.860254+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 871	FAC-20260603-0004	\N	\N	149	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-06-03 01:46:51.463863+00	\N	\N	2026-06-03 01:46:51.463863+00	\N	2026-06-03 01:46:51.463863+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 872	FAC-20260603-0005	\N	\N	149	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-06-03 01:47:14.083311+00	\N	\N	2026-06-03 01:47:14.083311+00	\N	2026-06-03 01:47:14.083311+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
@@ -12197,6 +12247,7 @@ COPY public.ventas (id, numero_venta, cliente_id, usuario_id, caja_id, subtotal,
 991	FAC-20260705-0033	\N	\N	195	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 03:22:45.575954+00	\N	\N	2026-07-05 03:22:45.575954+00	\N	2026-07-05 03:22:45.575954+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1007	FAC-20260705-0049	\N	\N	197	400	0	0	400	efectivo	contado	completada		\N	\N	\N	2026-07-05 19:20:53.709085+00	3	418	2026-07-05 19:20:53.709085+00	\N	2026-07-05 19:20:53.709085+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1023	FAC-20260705-0065	\N	\N	197	1400	0	0	1400	efectivo	contado	completada		\N	\N	\N	2026-07-05 22:54:57.184858+00	3	423	2026-07-05 22:54:57.184858+00	\N	2026-07-05 22:54:57.184858+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
+1039	FAC-20260706-0009	\N	\N	197	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-06 02:41:44.511199+00	\N	\N	2026-07-06 02:41:44.511199+00	\N	2026-07-06 02:41:44.511199+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 854	FAC-20260529-0007	\N	\N	142	550	0	0	550	efectivo	contado	completada		\N	\N	\N	2026-05-29 02:48:43.52071+00	4	346	2026-05-29 02:48:43.52071+00	\N	2026-05-29 02:48:43.52071+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 873	FAC-20260603-0006	\N	\N	149	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-06-03 02:42:47.154289+00	\N	\N	2026-06-03 02:42:47.154289+00	\N	2026-06-03 02:42:47.154289+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 888	FAC-20260606-0002	\N	\N	159	600	0	0	600	efectivo	contado	completada		\N	\N	\N	2026-06-06 02:29:09.937394+00	\N	\N	2026-06-06 02:29:09.937394+00	\N	2026-06-06 02:29:09.937394+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
@@ -12208,6 +12259,7 @@ COPY public.ventas (id, numero_venta, cliente_id, usuario_id, caja_id, subtotal,
 992	FAC-20260705-0034	\N	\N	195	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 03:24:40.180897+00	\N	\N	2026-07-05 03:24:40.180897+00	\N	2026-07-05 03:24:40.180897+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1008	FAC-20260705-0050	\N	\N	197	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 19:22:39.717836+00	\N	\N	2026-07-05 19:22:39.717836+00	\N	2026-07-05 19:22:39.717836+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1024	FAC-20260705-0066	\N	\N	197	150	0	0	150	efectivo	contado	completada		\N	\N	\N	2026-07-05 23:02:24.202579+00	\N	\N	2026-07-05 23:02:24.202579+00	\N	2026-07-05 23:02:24.202579+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
+1040	FAC-20260706-0010	\N	\N	197	50	0	0	50	efectivo	contado	completada		\N	\N	\N	2026-07-06 03:04:30.707837+00	\N	\N	2026-07-06 03:04:30.707837+00	\N	2026-07-06 03:04:30.707837+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 855	FAC-20260529-0008	\N	\N	142	300	0	0	300	efectivo	contado	completada		\N	\N	\N	2026-05-29 03:20:56.170756+00	4	347	2026-05-29 03:20:56.170756+00	\N	2026-05-29 03:20:56.170756+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 874	FAC-20260603-0007	\N	\N	149	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-06-03 03:08:59.211816+00	\N	\N	2026-06-03 03:08:59.211816+00	\N	2026-06-03 03:08:59.211816+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 890	FAC-20260606-0003	\N	\N	159	600	0	0	600	efectivo	contado	completada		\N	\N	\N	2026-06-06 02:33:30.285512+00	\N	\N	2026-06-06 02:33:30.285512+00	\N	2026-06-06 02:33:30.285512+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
@@ -12220,6 +12272,7 @@ COPY public.ventas (id, numero_venta, cliente_id, usuario_id, caja_id, subtotal,
 993	FAC-20260705-0035	\N	\N	195	50	0	0	50	efectivo	contado	completada		\N	\N	\N	2026-07-05 03:40:11.426621+00	7	409	2026-07-05 03:40:11.426621+00	\N	2026-07-05 03:40:11.426621+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1009	FAC-20260705-0051	\N	\N	197	300	0	0	300	efectivo	contado	completada		\N	\N	\N	2026-07-05 19:37:10.227874+00	3	419	2026-07-05 19:37:10.227874+00	\N	2026-07-05 19:37:10.227874+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1025	FAC-20260705-0067	\N	\N	197	50	0	0	50	efectivo	contado	completada		\N	\N	\N	2026-07-05 23:13:24.365622+00	\N	\N	2026-07-05 23:13:24.365622+00	\N	2026-07-05 23:13:24.365622+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
+1041	FAC-20260706-0011	\N	\N	197	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-06 03:18:02.17694+00	\N	\N	2026-07-06 03:18:02.17694+00	\N	2026-07-06 03:18:02.17694+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 856	FAC-20260529-0009	\N	\N	142	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-05-29 03:23:33.650753+00	\N	\N	2026-05-29 03:23:33.650753+00	\N	2026-05-29 03:23:33.650753+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 875	FAC-20260604-0001	\N	\N	157	1600	0	0	1600	efectivo	contado	completada		\N	\N	\N	2026-06-04 01:49:07.930922+00	\N	\N	2026-06-04 01:49:07.930922+00	\N	2026-06-04 01:49:07.930922+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 891	FAC-20260606-0004	\N	\N	159	800	0	0	800	efectivo	contado	completada		\N	\N	\N	2026-06-06 03:11:16.05664+00	\N	\N	2026-06-06 03:11:16.05664+00	\N	2026-06-06 03:11:16.05664+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
@@ -12232,6 +12285,7 @@ COPY public.ventas (id, numero_venta, cliente_id, usuario_id, caja_id, subtotal,
 994	FAC-20260705-0036	\N	\N	195	150	0	0	150	efectivo	contado	completada		\N	\N	\N	2026-07-05 03:41:26.403408+00	\N	\N	2026-07-05 03:41:26.403408+00	\N	2026-07-05 03:41:26.403408+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1010	FAC-20260705-0052	\N	\N	197	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 19:51:46.375381+00	3	420	2026-07-05 19:51:46.375381+00	\N	2026-07-05 19:51:46.375381+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1026	FAC-20260705-0068	\N	\N	197	400	0	0	400	efectivo	contado	completada		\N	\N	\N	2026-07-05 23:17:04.129775+00	3	428	2026-07-05 23:17:04.129775+00	\N	2026-07-05 23:17:04.129775+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
+1042	FAC-20260706-0012	\N	\N	197	50	0	0	50	efectivo	contado	completada		\N	\N	\N	2026-07-06 03:21:19.305748+00	\N	\N	2026-07-06 03:21:19.305748+00	\N	2026-07-06 03:21:19.305748+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 857	FAC-20260530-0001	\N	\N	143	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-05-30 00:34:42.814332+00	\N	\N	2026-05-30 00:34:42.814332+00	\N	2026-05-30 00:34:42.814332+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 892	FAC-20260606-0005	\N	\N	166	1800	0	0	1800	efectivo	contado	completada		\N	\N	\N	2026-06-06 23:54:25.808952+00	\N	\N	2026-06-06 23:54:25.808952+00	\N	2026-06-06 23:54:25.808952+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 910	FAC-20260610-0001	\N	\N	177	400	0	0	400	efectivo	contado	completada		\N	\N	\N	2026-06-10 23:58:13.48314+00	3	360	2026-06-10 23:58:13.48314+00	\N	2026-06-10 23:58:13.48314+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
@@ -12323,6 +12377,7 @@ COPY public.ventas (id, numero_venta, cliente_id, usuario_id, caja_id, subtotal,
 986	FAC-20260705-0028	\N	\N	195	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 02:38:32.033445+00	\N	\N	2026-07-05 02:38:32.033445+00	\N	2026-07-05 02:38:32.033445+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1002	FAC-20260705-0044	\N	\N	197	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 18:36:49.16215+00	2	416	2026-07-05 18:36:49.16215+00	\N	2026-07-05 18:36:49.16215+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1018	FAC-20260705-0060	\N	\N	197	300	0	0	300	efectivo	contado	completada		\N	\N	\N	2026-07-05 21:26:23.11568+00	\N	\N	2026-07-05 21:26:23.11568+00	\N	2026-07-05 21:26:23.11568+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
+1034	FAC-20260706-0004	\N	\N	197	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-06 01:50:21.326103+00	4	433	2026-07-06 01:50:21.326103+00	\N	2026-07-06 01:50:21.326103+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 866	FAC-20260601-0001	\N	\N	145	800	0	0	800	efectivo	contado	completada		\N	\N	\N	2026-06-01 00:36:21.833942+00	\N	\N	2026-06-01 00:36:21.833942+00	\N	2026-06-01 00:36:21.833942+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 884	FAC-20260605-0003	\N	\N	159	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-06-05 02:10:40.328115+00	\N	\N	2026-06-05 02:10:40.328115+00	\N	2026-06-05 02:10:40.328115+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 900	FAC-20260608-0003	\N	\N	169	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-06-08 03:05:57.429479+00	\N	\N	2026-06-08 03:05:57.429479+00	\N	2026-06-08 03:05:57.429479+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
@@ -12333,6 +12388,7 @@ COPY public.ventas (id, numero_venta, cliente_id, usuario_id, caja_id, subtotal,
 987	FAC-20260705-0029	\N	\N	195	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 02:45:16.964625+00	\N	\N	2026-07-05 02:45:16.964625+00	\N	2026-07-05 02:45:16.964625+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1003	FAC-20260705-0045	\N	\N	197	950	0	0	950	efectivo	contado	completada		\N	\N	\N	2026-07-05 18:41:57.930727+00	3	415	2026-07-05 18:41:57.930727+00	\N	2026-07-05 18:41:57.930727+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1019	FAC-20260705-0061	\N	\N	197	50	0	0	50	efectivo	contado	completada		\N	\N	\N	2026-07-05 21:29:52.173186+00	\N	\N	2026-07-05 21:29:52.173186+00	\N	2026-07-05 21:29:52.173186+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
+1035	FAC-20260706-0005	\N	\N	197	150	0	0	150	efectivo	contado	completada		\N	\N	\N	2026-07-06 02:00:02.4403+00	4	434	2026-07-06 02:00:02.4403+00	\N	2026-07-06 02:00:02.4403+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 649	FAC-20260423-9318	\N	2	62	15	0	0	15	efectivo	\N	cancelada	\N	\N	\N	\N	2026-04-23 03:22:03.744412+00	\N	\N	2026-04-23 03:22:03.744412+00	\N	2026-04-23 03:22:03.744412+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 663	FAC-20260424-301	\N	3	67	30	0	0	30	efectivo	\N	completada	\N	\N	\N	\N	2026-04-24 20:45:55.560386+00	\N	\N	2026-04-24 20:45:55.560386+00	\N	2026-04-24 20:45:55.560386+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 677	FAC-20260425-6650	\N	3	68	200	0	0	200	efectivo	\N	completada	\N	\N	\N	\N	2026-04-25 21:06:43.573601+00	\N	\N	2026-04-25 21:06:43.573601+00	\N	2026-04-25 21:06:43.573601+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
@@ -12602,6 +12658,7 @@ COPY public.ventas (id, numero_venta, cliente_id, usuario_id, caja_id, subtotal,
 988	FAC-20260705-0030	\N	\N	195	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-05 02:50:31.52666+00	\N	\N	2026-07-05 02:50:31.52666+00	\N	2026-07-05 02:50:31.52666+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1004	FAC-20260705-0046	\N	\N	197	50	0	0	50	efectivo	contado	completada		\N	\N	\N	2026-07-05 18:44:22.81549+00	\N	\N	2026-07-05 18:44:22.81549+00	\N	2026-07-05 18:44:22.81549+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 1020	FAC-20260705-0062	\N	\N	197	400	0	0	400	efectivo	contado	completada		\N	\N	\N	2026-07-05 21:50:11.939685+00	9	424	2026-07-05 21:50:11.939685+00	\N	2026-07-05 21:50:11.939685+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
+1036	FAC-20260706-0006	\N	\N	197	200	0	0	200	efectivo	contado	completada		\N	\N	\N	2026-07-06 02:01:10.650774+00	\N	\N	2026-07-06 02:01:10.650774+00	\N	2026-07-06 02:01:10.650774+00	ee860ed4-5d7a-495d-a517-d4a887f9a3f3	\N
 \.
 
 
@@ -13845,6 +13902,15 @@ COPY public.ventas_detalle (id, venta_id, producto_id, producto_nombre, cantidad
 1234	1032	2	Pte Gr Normal	3	200	0	600	2026-07-06 00:24:15.109956+00	\N	\N
 1235	1033	51	Agua 	1	50	0	50	2026-07-06 00:39:59.524653+00	\N	\N
 1236	1033	2	Pte Gr Normal	5	200	0	1000	2026-07-06 00:39:59.524653+00	\N	\N
+1237	1034	1	Pte Gr Light	1	200	0	200	2026-07-06 01:50:21.326103+00	\N	\N
+1238	1035	4	Pte Pña Light	1	150	0	150	2026-07-06 02:00:02.4403+00	\N	\N
+1239	1036	1	Pte Gr Light	1	200	0	200	2026-07-06 02:01:10.650774+00	\N	\N
+1240	1037	1	Pte Gr Light	1	200	0	200	2026-07-06 02:33:11.239485+00	\N	\N
+1241	1038	4	Pte Pña Light	1	150	0	150	2026-07-06 02:39:54.297191+00	\N	\N
+1242	1039	1	Pte Gr Light	1	200	0	200	2026-07-06 02:41:44.511199+00	\N	\N
+1243	1040	60	Coca Cola	1	50	0	50	2026-07-06 03:04:30.707837+00	\N	\N
+1244	1041	2	Pte Gr Normal	1	200	0	200	2026-07-06 03:18:02.17694+00	\N	\N
+1245	1042	51	Agua 	1	50	0	50	2026-07-06 03:21:19.305748+00	\N	\N
 \.
 
 
@@ -13893,6 +13959,14 @@ COPY realtime.messages_2026_07_07 (topic, extension, payload, event, private, up
 --
 
 COPY realtime.messages_2026_07_08 (topic, extension, payload, event, private, updated_at, inserted_at, id, binary_payload) FROM stdin;
+\.
+
+
+--
+-- Data for Name: messages_2026_07_09; Type: TABLE DATA; Schema: realtime; Owner: supabase_realtime_admin
+--
+
+COPY realtime.messages_2026_07_09 (topic, extension, payload, event, private, updated_at, inserted_at, id, binary_payload) FROM stdin;
 \.
 
 
@@ -14234,7 +14308,7 @@ SELECT pg_catalog.setval('public.anulaciones_id_seq', 3, true);
 -- Name: arqueos_caja_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.arqueos_caja_id_seq', 175, true);
+SELECT pg_catalog.setval('public.arqueos_caja_id_seq', 176, true);
 
 
 --
@@ -14304,7 +14378,7 @@ SELECT pg_catalog.setval('public.mesas_id_seq', 13, true);
 -- Name: movimientos_caja_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.movimientos_caja_id_seq', 1438, true);
+SELECT pg_catalog.setval('public.movimientos_caja_id_seq', 1447, true);
 
 
 --
@@ -14325,14 +14399,14 @@ SELECT pg_catalog.setval('public.pagos_cuentas_pagar_id_seq', 1, false);
 -- Name: pedidos_mesa_detalle_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pedidos_mesa_detalle_id_seq', 525, true);
+SELECT pg_catalog.setval('public.pedidos_mesa_detalle_id_seq', 530, true);
 
 
 --
 -- Name: pedidos_mesa_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pedidos_mesa_id_seq', 432, true);
+SELECT pg_catalog.setval('public.pedidos_mesa_id_seq', 436, true);
 
 
 --
@@ -14353,7 +14427,7 @@ SELECT pg_catalog.setval('public.proveedores_id_seq', 1, false);
 -- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.roles_id_seq', 3096, true);
+SELECT pg_catalog.setval('public.roles_id_seq', 3102, true);
 
 
 --
@@ -14367,7 +14441,7 @@ SELECT pg_catalog.setval('public.secuencias_ncf_id_seq', 7, true);
 -- Name: sesiones_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sesiones_id_seq', 814, true);
+SELECT pg_catalog.setval('public.sesiones_id_seq', 816, true);
 
 
 --
@@ -14381,14 +14455,14 @@ SELECT pg_catalog.setval('public.usuarios_id_seq', 19, true);
 -- Name: ventas_detalle_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.ventas_detalle_id_seq', 1236, true);
+SELECT pg_catalog.setval('public.ventas_detalle_id_seq', 1245, true);
 
 
 --
 -- Name: ventas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.ventas_id_seq', 1033, true);
+SELECT pg_catalog.setval('public.ventas_id_seq', 1042, true);
 
 
 --
@@ -15124,6 +15198,14 @@ ALTER TABLE ONLY realtime.messages_2026_07_07
 
 ALTER TABLE ONLY realtime.messages_2026_07_08
     ADD CONSTRAINT messages_2026_07_08_pkey PRIMARY KEY (id, inserted_at);
+
+
+--
+-- Name: messages_2026_07_09 messages_2026_07_09_pkey; Type: CONSTRAINT; Schema: realtime; Owner: supabase_realtime_admin
+--
+
+ALTER TABLE ONLY realtime.messages_2026_07_09
+    ADD CONSTRAINT messages_2026_07_09_pkey PRIMARY KEY (id, inserted_at);
 
 
 --
@@ -16084,6 +16166,13 @@ CREATE INDEX messages_2026_07_08_inserted_at_topic_idx ON realtime.messages_2026
 
 
 --
+-- Name: messages_2026_07_09_inserted_at_topic_idx; Type: INDEX; Schema: realtime; Owner: supabase_realtime_admin
+--
+
+CREATE INDEX messages_2026_07_09_inserted_at_topic_idx ON realtime.messages_2026_07_09 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE));
+
+
+--
 -- Name: subscription_subscription_id_entity_filters_action_filter_selec; Type: INDEX; Schema: realtime; Owner: supabase_admin
 --
 
@@ -16228,6 +16317,20 @@ ALTER INDEX realtime.messages_inserted_at_topic_index ATTACH PARTITION realtime.
 --
 
 ALTER INDEX realtime.messages_pkey ATTACH PARTITION realtime.messages_2026_07_08_pkey;
+
+
+--
+-- Name: messages_2026_07_09_inserted_at_topic_idx; Type: INDEX ATTACH; Schema: realtime; Owner: supabase_realtime_admin
+--
+
+ALTER INDEX realtime.messages_inserted_at_topic_index ATTACH PARTITION realtime.messages_2026_07_09_inserted_at_topic_idx;
+
+
+--
+-- Name: messages_2026_07_09_pkey; Type: INDEX ATTACH; Schema: realtime; Owner: supabase_realtime_admin
+--
+
+ALTER INDEX realtime.messages_pkey ATTACH PARTITION realtime.messages_2026_07_09_pkey;
 
 
 --
@@ -19754,6 +19857,14 @@ GRANT ALL ON TABLE realtime.messages_2026_07_08 TO dashboard_user;
 
 
 --
+-- Name: TABLE messages_2026_07_09; Type: ACL; Schema: realtime; Owner: supabase_realtime_admin
+--
+
+GRANT ALL ON TABLE realtime.messages_2026_07_09 TO postgres;
+GRANT ALL ON TABLE realtime.messages_2026_07_09 TO dashboard_user;
+
+
+--
 -- Name: TABLE schema_migrations; Type: ACL; Schema: realtime; Owner: supabase_admin
 --
 
@@ -20161,5 +20272,5 @@ ALTER EVENT TRIGGER pgrst_drop_watch OWNER TO supabase_admin;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict eRafwBh4hekjdH3ucxUJpSlqVu57tsJRyvQkpv4rYlbTHyAUJDM6RqF3ESKXEg7
+\unrestrict KSdlsRV3Dg9nspJsTodmp2OltQCxDg1so4U7pxhwi7amdEdQB4mjvJdXCSQd9XT
 

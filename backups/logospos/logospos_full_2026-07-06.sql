@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict bThfc04ydcbk1XHb09pIQBzYT4foVYnmK5uAPeiFm0LQeOJ31y6V3h5edEbdOIg
+\restrict c1MoR2OKzwzLwfK5iuYcRxgkUYHsUFyeqPd2bBUjnsjVzbg0PN4zTgBzybBPLHo
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.10 (Ubuntu 17.10-1.pgdg24.04+1)
@@ -4426,7 +4426,8 @@ COPY auth.refresh_tokens (instance_id, id, token, user_id, revoked, created_at, 
 00000000-0000-0000-0000-000000000000	28	ftfhlwzxkykv	50471f55-7b80-41ea-86ee-4e91338d3864	f	2026-07-05 21:22:36.101041+00	2026-07-05 21:22:36.101041+00	\N	5bd0a7d0-01d9-4e37-b209-64d9f51606a4
 00000000-0000-0000-0000-000000000000	29	ukwhyrpg6asz	50471f55-7b80-41ea-86ee-4e91338d3864	f	2026-07-05 23:20:55.965239+00	2026-07-05 23:20:55.965239+00	\N	3af6c769-921c-4487-9528-f0d42788fc73
 00000000-0000-0000-0000-000000000000	30	3qyos2qsjo6f	50471f55-7b80-41ea-86ee-4e91338d3864	t	2026-07-05 23:26:09.224977+00	2026-07-06 00:48:06.946239+00	\N	b53928c1-dfb3-494b-8827-e1fef4522e3d
-00000000-0000-0000-0000-000000000000	31	5t45ipvhkheq	50471f55-7b80-41ea-86ee-4e91338d3864	f	2026-07-06 00:48:06.961562+00	2026-07-06 00:48:06.961562+00	3qyos2qsjo6f	b53928c1-dfb3-494b-8827-e1fef4522e3d
+00000000-0000-0000-0000-000000000000	31	5t45ipvhkheq	50471f55-7b80-41ea-86ee-4e91338d3864	t	2026-07-06 00:48:06.961562+00	2026-07-06 01:50:27.935015+00	3qyos2qsjo6f	b53928c1-dfb3-494b-8827-e1fef4522e3d
+00000000-0000-0000-0000-000000000000	32	foeg34o5ywng	50471f55-7b80-41ea-86ee-4e91338d3864	f	2026-07-06 01:50:27.94763+00	2026-07-06 01:50:27.94763+00	5t45ipvhkheq	b53928c1-dfb3-494b-8827-e1fef4522e3d
 \.
 
 
@@ -4539,7 +4540,7 @@ COPY auth.sessions (id, user_id, created_at, updated_at, factor_id, aal, not_aft
 53f0db40-3fa1-45af-a3af-b8d432b2614a	50471f55-7b80-41ea-86ee-4e91338d3864	2026-07-05 21:17:07.359097+00	2026-07-05 21:17:07.359097+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36	38.188.24.226	\N	\N	\N	\N	\N
 5bd0a7d0-01d9-4e37-b209-64d9f51606a4	50471f55-7b80-41ea-86ee-4e91338d3864	2026-07-05 21:22:36.088921+00	2026-07-05 21:22:36.088921+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36 Edg/149.0.0.0	38.188.24.226	\N	\N	\N	\N	\N
 3af6c769-921c-4487-9528-f0d42788fc73	50471f55-7b80-41ea-86ee-4e91338d3864	2026-07-05 23:20:55.926731+00	2026-07-05 23:20:55.926731+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36 Edg/149.0.0.0	38.188.24.226	\N	\N	\N	\N	\N
-b53928c1-dfb3-494b-8827-e1fef4522e3d	50471f55-7b80-41ea-86ee-4e91338d3864	2026-07-05 23:26:09.195651+00	2026-07-06 00:48:06.977252+00	\N	aal1	\N	2026-07-06 00:48:06.977138	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36	38.188.24.226	\N	\N	\N	\N	\N
+b53928c1-dfb3-494b-8827-e1fef4522e3d	50471f55-7b80-41ea-86ee-4e91338d3864	2026-07-05 23:26:09.195651+00	2026-07-06 01:50:27.961141+00	\N	aal1	\N	2026-07-06 01:50:27.96103	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36	38.188.24.226	\N	\N	\N	\N	\N
 \.
 
 
@@ -4564,7 +4565,7 @@ COPY auth.sso_providers (id, resource_id, created_at, updated_at, disabled) FROM
 --
 
 COPY auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, invited_at, confirmation_token, confirmation_sent_at, recovery_token, recovery_sent_at, email_change_token_new, email_change, email_change_sent_at, last_sign_in_at, raw_app_meta_data, raw_user_meta_data, is_super_admin, created_at, updated_at, phone, phone_confirmed_at, phone_change, phone_change_token, phone_change_sent_at, email_change_token_current, email_change_confirm_status, banned_until, reauthentication_token, reauthentication_sent_at, is_sso_user, deleted_at, is_anonymous) FROM stdin;
-00000000-0000-0000-0000-000000000000	50471f55-7b80-41ea-86ee-4e91338d3864	authenticated	authenticated	admin@cacao.com	$2a$10$QqVsNIR5pPGBkINSDraeQusBOT7CR1wfwIesIJlt2VD0qVKYFG4Vy	2026-07-04 19:51:10.955031+00	\N		\N		\N			\N	2026-07-05 23:26:09.194476+00	{"provider": "email", "providers": ["email"]}	{"email_verified": true}	\N	2026-07-04 19:51:10.946365+00	2026-07-06 00:48:06.965591+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	50471f55-7b80-41ea-86ee-4e91338d3864	authenticated	authenticated	admin@cacao.com	$2a$10$QqVsNIR5pPGBkINSDraeQusBOT7CR1wfwIesIJlt2VD0qVKYFG4Vy	2026-07-04 19:51:10.955031+00	\N		\N		\N			\N	2026-07-05 23:26:09.194476+00	{"provider": "email", "providers": ["email"]}	{"email_verified": true}	\N	2026-07-04 19:51:10.946365+00	2026-07-06 01:50:27.949923+00	\N	\N			\N		0	\N		\N	f	\N	f
 \.
 
 
@@ -4995,7 +4996,7 @@ COPY vault.secrets (id, name, description, secret, key_id, nonce, created_at, up
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('auth.refresh_tokens_id_seq', 31, true);
+SELECT pg_catalog.setval('auth.refresh_tokens_id_seq', 32, true);
 
 
 --
@@ -8713,5 +8714,5 @@ ALTER EVENT TRIGGER pgrst_drop_watch OWNER TO supabase_admin;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict bThfc04ydcbk1XHb09pIQBzYT4foVYnmK5uAPeiFm0LQeOJ31y6V3h5edEbdOIg
+\unrestrict c1MoR2OKzwzLwfK5iuYcRxgkUYHsUFyeqPd2bBUjnsjVzbg0PN4zTgBzybBPLHo
 
