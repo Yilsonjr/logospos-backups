@@ -26,6 +26,7 @@ jobs:
       - name: Procesar Proyectos Activos
         env:
           DB_URL_RESTAURANT: ${{ secrets.DB_URL_RESTAURANT }}
+          DB_URL_LOGOSPOS: ${{ secrets.DB_URL_LOGOSPOS }}
         run: |
           FECHA=$(date +%Y-%m-%d)
           echo "FECHA_BACKUP=$FECHA" >> $GITHUB_ENV
