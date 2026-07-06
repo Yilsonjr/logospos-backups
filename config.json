@@ -4,6 +4,11 @@
       "id": "pos_restaurant_main",
       "secret_name": "DB_URL_RESTAURANT",
       "activo": true
+    },
+    {
+      "id": "logospos",
+      "secret_name": "DB_URL_LOGOSPOS",
+      "activo": true
     }
   ]
 }
