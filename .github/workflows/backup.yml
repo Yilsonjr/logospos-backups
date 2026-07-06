@@ -69,6 +69,12 @@ jobs:
               echo "No hay cambios nuevos hoy."
             else
               git commit -m "Backup Global Completo - $FECHA_BACKUP"
+              
+              # 1. Traer cambios remotos y aplicar rebase para evitar el [rejected]
+              git fetch origin main
+              git rebase origin/main
+              
+              # 2. Empujar los cambios de forma segura
               git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
             fi
           fi
